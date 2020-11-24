@@ -19,14 +19,19 @@
 using namespace std;
 using namespace cv;
 
-#define PORT 9999
+int PORT=9999;
 
 int main(int argc, char* argv[])
 {
-    ros::init(argc, argv, "image_publisher");
-    ros::NodeHandle nh;
+    ros::init(argc, argv, "rec_node");
+    ros::NodeHandle nh("~");
     image_transport::ImageTransport it(nh);
-    image_transport::Publisher pub = it.advertise("camera/image", 1);
+    string camera_id, port_str;
+    nh.param<std::string>("camera_id", camera_id, "left");
+    nh.param<int>("port", PORT, 9999);
+    cout << "camera_id: " << camera_id << endl;
+    cout << "port: " << PORT << endl;
+    image_transport::Publisher pub = it.advertise("/camera/"+camera_id, 1);
 
     struct sockaddr_in addr;
     socklen_t sockfd, addr_len = sizeof(struct sockaddr_in);
@@ -74,7 +79,7 @@ int main(int argc, char* argv[])
         }
 
         if (recvd_size == imgLen) {
-            cout << "received image." << endl;
+            // cout << "received image." << endl;
             image = imdecode(Mat(1, recvd_size, CV_8UC1, data_total), IMREAD_COLOR);
             sensor_msgs::ImagePtr msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", image).toImageMsg();
             pub.publish(msg);
