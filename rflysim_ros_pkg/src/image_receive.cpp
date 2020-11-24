@@ -54,9 +54,10 @@ int main(int argc, char* argv[])
     int imgFlag = 1234567890;
     int fhead_size = 4*sizeof(int);
     int img_head[4];
+    char data_total[600000];
     Mat image;
 
-    while (1) {
+    while (ros::ok) {
         int recvbytes = recvfrom(sockfd, (char*)img_head, fhead_size, 0, (struct sockaddr *)&addr, &addr_len);
         if (recvbytes != fhead_size || img_head[0] != imgFlag) {
             continue;
@@ -65,7 +66,6 @@ int main(int argc, char* argv[])
         int imgLen = img_head[1];
         int imgPackUnit = img_head[2];
         int imgpackNum = img_head[3];
-        char* data_total = (char*)malloc(imgLen);
         int recvd_size = 0;
 
         for (int i=0; i<imgpackNum; i++) {
@@ -75,13 +75,12 @@ int main(int argc, char* argv[])
 
         if (recvd_size == imgLen) {
             cout << "received image." << endl;
-            image = imdecode(Mat(1, recvd_size, CV_8UC1, data_total), CV_LOAD_IMAGE_UNCHANGED);
+            image = imdecode(Mat(1, recvd_size, CV_8UC1, data_total), IMREAD_COLOR);
             sensor_msgs::ImagePtr msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", image).toImageMsg();
             pub.publish(msg);
             // imshow("image", image);
-            // waitKey(1);
+            // if (char(waitKey(1))=='q') { break; }
         }
-        free(data_total);
     }
 
     close(sockfd);
