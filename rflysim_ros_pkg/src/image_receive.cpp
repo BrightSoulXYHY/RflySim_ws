@@ -76,8 +76,10 @@ int main(int argc, char* argv[])
         if (recvd_size == imgLen) {
             cout << "received image." << endl;
             image = imdecode(Mat(1, recvd_size, CV_8UC1, data_total), CV_LOAD_IMAGE_UNCHANGED);
-            imshow("image", image);
-            waitKey(1);
+            sensor_msgs::ImagePtr msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", image).toImageMsg();
+            pub.publish(msg);
+            // imshow("image", image);
+            // waitKey(1);
         }
         free(data_total);
     }
