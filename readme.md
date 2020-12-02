@@ -13,7 +13,7 @@ mv RflySim_ws src
 
 3. 下载压缩插件
 ```
-# 其中kinetic根据自己ROS发行版替换
+# 其中kinetic根据自己ROS发行版替换，可能是melodic或indigo等等
 sudo apt-get install ros-kinetic-compressed-image-transport
 ```
 
