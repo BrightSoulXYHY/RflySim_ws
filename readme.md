@@ -24,9 +24,9 @@ catkin_make
 
 5. 刷新ROS环境变量
 ```
-# USER_NAME替换为自己的用户名
+# USER_NAME替换为自己的用户名，用zsh的是...../setup.zsh
 source /home/USER_NAME/RflySim_ws/devel/setup.bash
-# 或者把这句话加在~/.bashrc，然后重开一个终端，就不用每次都执行上面这句了
+# 或者把这句话加在~/.bashrc（或者~/.zshrc），然后重开一个终端，就不用每次都执行上面这句了
 ```
 
 6. 运行单目或双目图像
