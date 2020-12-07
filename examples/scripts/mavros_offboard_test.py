@@ -53,7 +53,7 @@ class Px4Controller:
         rospy.init_node("offboard_node")
         rate = rospy.Rate(20)
 
-        for i in range(10):
+        for _ in range(10):
             self.vel_pub.publish(self.command)
             self.arm_state = self.arm()
             self.offboard_state = self.offboard()
@@ -89,9 +89,7 @@ class Px4Controller:
         self.mavros_state = msg.mode
 
     def imu_callback(self, msg):
-        global global_imu, current_heading
         self.imu = msg
-
         self.current_heading = self.q2yaw(self.imu.orientation)
         self.received_imu = True
 
@@ -100,7 +98,7 @@ class Px4Controller:
 
     def q2yaw(self, q):
         q0, q1, q2, q3 = q.w, q.x, q.y, q.z
-        math.atan2(2*(q0*q3+q1*q2), 1-2*(q2*q2+q3*q3))
+        return math.atan2(2*(q0*q3+q1*q2), 1-2*(q2*q2+q3*q3))
 
     def arm(self):
         if self.armService(True):
