@@ -46,6 +46,9 @@ def send_control():
     obj_msg.angule.x = 0
     obj_msg.angule.y = 0
     obj_msg.angule.z = 0
+    obj_msg.size.x = 1
+    obj_msg.size.y = 1
+    obj_msg.size.z = 1
     while not rospy.is_shutdown():
         obj_msg.position.y = obj_msg.position.y + 0.001
         obj_pub.publish(obj_msg)
