@@ -16,6 +16,8 @@ import math
 
 import sys
 
+
+
 def udp_socket():
     return socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
@@ -66,17 +68,17 @@ sendUE4Pos(CopterID, VehicleType, RotorSpeed, PosM, AngEulerRad, windowsID = 0) 
 '''
 
 def obj_cb(msg):
+    degree_to_rate = math.pi/180
     global obj_pos, obj_angle,obj_type, obj_id, obj_size
     obj_id = msg.id
     obj_type = msg.type
     param_x = rospy.get_param("/obj_control/mav_x")
     param_y = rospy.get_param("/obj_control/mav_y")
     param_z = rospy.get_param("/obj_control/mav_z")
-    param_yaw = rospy.get_param("/obj_control/mav_yaw")
     param_ip = rospy.get_param("/obj_control/ip")
     
     obj_pos = [msg.position.y + param_x, msg.position.x + param_y, - msg.position.z + param_z]
-    obj_angle = [msg.angule.y, msg.angule.x, - msg.angule.z - param_yaw]
+    obj_angle = [msg.angule.y, msg.angule.x, np.pi/2 - msg.angule.z]
     obj_size = [msg.size.x, msg.size.y, msg.size.z]
     print("obj_pos is {}".format(obj_pos))
 
