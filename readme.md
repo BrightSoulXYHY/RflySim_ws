@@ -50,3 +50,31 @@ rosrun examples imgread_compressed.py
 # 接收原始图片话题
 rosrun examples imgread.py
 ```
+
+## 多机
+1.启动多机Mavros
+```
+#终端1：启动多机Mavros的launch文件
+roslaunch rflysim_ros_pkg multi_mavros.launch
+现象：
+之前的/mavros......开头的节点名都会变成/drone_i/mavros......开头，因此订阅的消息都要做相应修改
+修改项：
+<arg name="IP" value="192.168.1.167" />中的“192.168.1.167”
+需要改成对应window电脑的IP地址
+```
+```
+注意：
+如需添加更多架飞机，在launch文件中依次添加下列代码，其中“<arg name="ID" value="i"/>”为添加的ID编号，这一项不能重名，“<arg name="fcu_url" default="udp://:20101@$(arg IP):20100"/>”中的20101和20100不同飞机端口号，也不能重复
+
+   <group ns="drone_i">
+      <arg name="ID" value="i"/>
+      <arg name="fcu_url" default="udp://:20101@192.168.199.140:20100"/>
+      <!-- MAVROS -->
+      <include file="$(find mavros)/launch/px4.launch">
+         <arg name="fcu_url" value="$(arg fcu_url)"/>
+         <arg name="gcs_url" value=""/>
+         <arg name="tgt_system" value="$(arg ID)"/>
+         <arg name="tgt_component" value="1"/>
+      </include>
+   </group>
+```
