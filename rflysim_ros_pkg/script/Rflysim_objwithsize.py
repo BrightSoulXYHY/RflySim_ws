@@ -80,7 +80,7 @@ def obj_cb(msg):
     obj_pos = [msg.position.y + param_x, msg.position.x + param_y, - msg.position.z + param_z]
     obj_angle = [msg.angule.y, msg.angule.x, np.pi/2 - msg.angule.z]
     obj_size = [msg.size.x, msg.size.y, msg.size.z]
-    print("obj_pos is {}".format(obj_pos))
+    print("obj_info: {}".format(msg))
 
     sendUE4PosScale(obj_id, obj_type, 0, obj_pos, obj_angle, obj_size, param_ip)  # -8.086
 
