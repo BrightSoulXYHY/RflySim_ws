@@ -69,6 +69,10 @@ class Px4Controller:
                 self.command.twist.linear.z = 2
                 self.command.twist.angular.z = 0
             elif rospy.Time.now() - start_time < rospy.Duration(20):
+                self.command.twist.linear.x = 0
+                self.command.twist.linear.z = 0
+                self.command.twist.angular.z = 0
+            elif rospy.Time.now() - start_time < rospy.Duration(40):
                 self.command.twist.linear.x = 2
                 self.command.twist.linear.z = 0
                 self.command.twist.angular.z = 0.1

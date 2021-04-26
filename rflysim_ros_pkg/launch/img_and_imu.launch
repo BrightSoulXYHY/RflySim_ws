@@ -1,0 +1,18 @@
+<launch>
+   <arg name="camera_id" default="left" />
+   <arg name="port" default="9999" />
+   <node pkg="rflysim_ros_pkg" type="rec_node" name="rec_node_$(arg camera_id)" output="screen">
+        <param name="camera_id" value="$(arg camera_id)"/>
+        <param name="port" value="$(arg port)"/>
+   </node>
+
+
+   <arg name="fcu_url" default="udp://:20101@192.168.222.1:20100"/>
+   <arg name="respawn_mavros" default="false"/>
+   <include file="$(find mavros)/launch/px4.launch">
+      <!-- GCS link is provided by SITL -->
+      <arg name="gcs_url" value=""/>
+      <arg name="fcu_url" value="$(arg fcu_url)"/>
+      <arg name="respawn_mavros" value="$(arg respawn_mavros)"/>
+   </include>
+</launch>

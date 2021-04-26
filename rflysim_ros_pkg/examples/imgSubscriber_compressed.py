@@ -6,6 +6,7 @@ import numpy as np
 from sensor_msgs.msg import CompressedImage
 from cv_bridge import CvBridge, CvBridgeError
 import cv2
+bridge = CvBridge()
 
 def callback(msg):
     np_arr = np.fromstring(msg.data, np.uint8)
@@ -18,9 +19,6 @@ def callback(msg):
 def display():
     rospy.init_node('camera_display', anonymous=True)
 
-    # make a video_object and init the video object
-    global bridge
-    bridge = CvBridge()
     rospy.Subscriber('/camera/left/compressed', CompressedImage, callback)
     rospy.spin()
 
