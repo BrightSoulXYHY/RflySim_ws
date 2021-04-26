@@ -1,5 +1,14 @@
+# Readme
+
+提供了Rflysim的ros支持，可以将Rflysim获取到是图像推送到ROS。
+
+- 推送RGB图片到/camera/left和/camera/right中
+- examples文件夹中有诸多例程
+
 ## 使用说明
-1. 创建工作空间
+
+创建工作空间
+
 ``` 
 mkdir ~/RflySim_ws
 cd ~/RflySim_ws
@@ -7,8 +16,7 @@ cd ~/RflySim_ws
 
 2. 下载本仓库
 ```
-git clone https://github.com/KennethYangle/RflySim_ws.git
-mv RflySim_ws src
+git clone https://github.com/KennethYangle/RflySim_ws.git rflysim_ros_pkg
 ```
 
 3. 下载压缩插件
